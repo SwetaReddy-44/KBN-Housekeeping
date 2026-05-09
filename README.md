@@ -30,13 +30,7 @@ A comprehensive web-based management system designed to streamline daily operati
 ## 📸 Screenshot
 <img width="1907" height="889" alt="Screenshot 2026-05-09 162459" src="https://github.com/user-attachments/assets/46b0c41e-2e25-45cd-a1f4-2059f86c2cdf" />
 
-<img width="1918" height="907" alt="Screenshot 2026-05-09 161833" src="https://github.com/user-attachments/assets/054e6e4a-01a2-466b-a24b-35f9ed21e52c" />
 
-<img width="1913" height="902" alt="Screenshot 2026-05-09 161912" src="https://github.com/user-attachments/assets/2c717be5-5f2b-44bd-96ef-2c012a8163a1" />
-
-<img width="1919" height="903" alt="Screenshot 2026-05-09 162012" src="https://github.com/user-attachments/assets/a3f98c43-b859-444f-92cb-c12a50211031" />
-
-<img width="1919" height="889" alt="Screenshot 2026-05-09 162027" src="https://github.com/user-attachments/assets/6879abdf-e85b-4d54-b653-dc285610aa56" />
 
 ---
 Developed by Sweta Reddy
