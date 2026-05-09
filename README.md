@@ -29,6 +29,7 @@ A comprehensive web-based management system designed to streamline daily operati
 
 ## 📸 Screenshot
 <img width="1907" height="889" alt="Screenshot 2026-05-09 162459" src="https://github.com/user-attachments/assets/46b0c41e-2e25-45cd-a1f4-2059f86c2cdf" />
+<img width="1907" height="889" alt="Screenshot 2026-05-09 162459" src="https://github.com/user-attachments/assets/31289dce-deaa-4646-9672-6337a98cfa08" />
 
 
 
