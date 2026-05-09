@@ -1,0 +1,46 @@
+{% extends "admin_base.html" %}
+
+{% block content %}
+<div class="page-title">
+    <h2>Customer Feedback</h2>
+</div>
+
+<div class="card">
+    <div class="table-responsive">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th style="padding: 1rem; text-align: left;">Date</th>
+                    <th style="padding: 1rem; text-align: center;">Rating</th>
+                    <th style="padding: 1rem; text-align: left;">Name</th>
+                    <th style="padding: 1rem; text-align: left;">Email</th>
+                    <th style="padding: 1rem; text-align: left;">Message</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for fb in feedbacks %}
+                <tr style="border-bottom: 1px solid var(--border-color);">
+                    <td style="padding: 1rem;">{{ fb.created_at.strftime('%Y-%m-%d %H:%M') if fb.created_at else '' }}</td>
+                    <td style="padding: 1rem; font-size: 1.5rem; text-align: center;">
+                        {% if fb.rating == 1 %}😠
+                        {% elif fb.rating == 2 %}🙁
+                        {% elif fb.rating == 3 %}😐
+                        {% elif fb.rating == 4 %}🙂
+                        {% else %}😍{% endif %}
+                    </td>
+                    <td style="padding: 1rem; font-weight: 500;">{{ fb.name }}</td>
+                    <td style="padding: 1rem;">{{ fb.email or '--' }}</td>
+                    <td style="padding: 1rem; max-width: 400px; white-space: pre-wrap; line-height: 1.5;">{{ fb.message }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="5" style="text-align: center; color: var(--text-muted); padding: 2rem;">
+                        No feedback available right now.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends "admin_base.html" %}
+
+{% block content %}
+<div class="page-title">
+    <h2>Customer Booking Requests</h2>
+</div>
+
+<div class="admin-table-container">
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>Booking ID</th>
+                <th>Customer Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Service Requested</th>
+                <th>Preferred Date</th>
+                <th>Date Requested</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if bookings %}
+                {% for booking in bookings %}
+                <tr>
+                    <td>#BKG-{{ booking.id }}</td>
+                    <td><span style="font-weight: 500;">{{ booking.customer_name }}</span></td>
+                    <td><span style="color: var(--text-muted); font-size: 0.9em;">{{ booking.email if booking.email else '—' }}</span></td>
+                    <td>{{ booking.phone }}</td>
+                    <td>
+                        <span style="background: var(--bg-color); padding: 0.2rem 0.5rem; border-radius: var(--radius-sm); font-size: 0.8rem;">
+                            {{ booking.service_type }}
+                        </span>
+                    </td>
+                    <td>{{ booking.preferred_date }}</td>
+                    <td style="color: var(--text-muted); font-size: 0.85rem;">
+                        {{ booking.created_at.strftime('%Y-%m-%d') if booking.created_at else '' }}<br>
+                        <strong>{{ booking.created_at.strftime('%I:%M %p') if booking.created_at else '' }}</strong>
+                    </td>
+                </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="6" style="text-align: center; padding: var(--space-xl);">
+                        <div style="color: var(--text-muted);">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" style="margin-bottom: var(--space-sm); opacity: 0.5;">
+                                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                            </svg>
+                            <p>No booking requests found yet.</p>
+                        </div>
+                    </td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

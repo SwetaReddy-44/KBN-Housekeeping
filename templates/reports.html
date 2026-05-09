@@ -1,0 +1,159 @@
+{% extends "admin_base.html" %}
+
+{% block content %}
+<div class="page-title">
+    <h2>Reports</h2>
+    <button onclick="window.print()" class="btn btn-primary" style="padding: 0.5rem 1rem; border-radius: var(--radius-md); border: none; cursor: pointer;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 5px;">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Download PDF
+    </button>
+</div>
+<div class="grid" style="grid-template-columns: repeat(4, 1fr); gap: var(--space-md); margin-bottom: var(--space-xl);">
+    <div class="stat-card" style="background: white; padding: var(--space-md); border-radius: var(--radius-lg); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); display:flex; align-items:center; gap:var(--space-sm);">
+        <div style="font-size: 1.5rem;">📅</div>
+        <div>
+            <h4 style="margin: 0; color: var(--text-muted); font-weight: 500; font-size: 0.85rem;">Total Bookings</h4>
+            <div style="font-size: 1.25rem; font-weight: 700; color: var(--text-main);">{{ stats.total_bookings }}</div>
+        </div>
+    </div>
+    
+    <div class="stat-card" style="background: white; padding: var(--space-md); border-radius: var(--radius-lg); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); display:flex; align-items:center; gap:var(--space-sm);">
+        <div style="font-size: 1.5rem;">👥</div>
+        <div>
+            <h4 style="margin: 0; color: var(--text-muted); font-weight: 500; font-size: 0.85rem;">Total Staff</h4>
+            <div style="font-size: 1.25rem; font-weight: 700; color: var(--text-main);">{{ stats.total_employees }}</div>
+        </div>
+    </div>
+
+    <div class="stat-card" style="background: white; padding: var(--space-md); border-radius: var(--radius-lg); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); display:flex; align-items:center; gap:var(--space-sm);">
+        <div style="font-size: 1.5rem;">✅</div>
+        <div>
+            <h4 style="margin: 0; color: var(--text-muted); font-weight: 500; font-size: 0.85rem;">Active Staff</h4>
+            <div style="font-size: 1.25rem; font-weight: 700; color: var(--text-main);">{{ stats.active_employees }}</div>
+        </div>
+    </div>
+
+        <div class="stat-card" style="background: white; padding: var(--space-md); border-radius: var(--radius-lg); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); display:flex; align-items:center; gap:var(--space-sm); overflow: hidden;">
+        <div style="font-size: 1.5rem;">💰</div>
+        <div style="overflow: hidden;">
+            <h4 style="margin: 0; color: var(--text-muted); font-weight: 500; font-size: 0.85rem; white-space: nowrap;">Total Payouts</h4>
+            <div style="font-size: 1.25rem; font-weight: 700; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">₹ {{ "{:,.2f}".format(stats.total_paid) }}</div>
+        </div>
+    </div>
+</div>
+
+<div class="grid" style="grid-template-columns: 1fr 1fr; gap: var(--space-md);">
+    <div class="card">
+        <h3 style="margin-bottom: var(--space-sm);">Services Booked Most</h3>
+        <table class="data-table" style="width: 100%; border-collapse: collapse;">
+            <thead>
+                <tr style="border-bottom: 2px solid var(--border-color); text-align: left;">
+                    <th style="padding: 0.75rem 0.5rem; color: var(--text-muted); font-weight: 600;">Type of Service</th>
+                    <th style="padding: 0.75rem 0.5rem; color: var(--text-muted); font-weight: 600;">Total Bookings</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for sc in stats.service_counts %}
+                <tr style="border-bottom: 1px solid var(--border-color);">
+                    <td style="padding: 0.75rem 0.5rem;">
+                        {% if sc.service_type == 'building-cleaning' %}Commercial Building Cleaning
+                        {% elif sc.service_type == 'acid-wash' %}Acid Wash & Hard Floors
+                        {% elif sc.service_type == 'tank-cleaning' %}Tank Cleaning
+                        {% else %}{{ sc.service_type|title }}{% endif %}
+                    </td>
+                    <td style="padding: 0.75rem 0.5rem; font-weight: bold; color: var(--accent);">{{ sc.count }}</td>
+                </tr>
+                {% else %}
+                <tr><td colspan="2" style="padding: 1.5rem 0.5rem; text-align: center; color: var(--text-muted);">No services booked yet.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="card">
+        <h3 style="margin-bottom: var(--space-sm);">Top Service Areas</h3>
+        <div style="max-height: 250px; overflow-y: auto;">
+        <table class="data-table" style="width: 100%; border-collapse: collapse;">
+            <thead>
+                <tr style="border-bottom: 2px solid var(--border-color); text-align: left;">
+                    <th style="padding: 0.75rem 0.5rem; color: var(--text-muted); font-weight: 600; position: sticky; top: 0; background: white; z-index: 1;">Address</th>
+                    <th style="padding: 0.75rem 0.5rem; color: var(--text-muted); font-weight: 600; position: sticky; top: 0; background: white; z-index: 1;">Service Count</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for loc in stats.top_locations %}
+                <tr style="border-bottom: 1px solid var(--border-color);">
+                    <td style="padding: 0.75rem 0.5rem;">
+                        <strong>{{ loc.address }}</strong>
+                        {% if loc.details %}
+                        <details style="margin-top: 8px;">
+                            <summary style="cursor: pointer; color: var(--accent); font-size: 0.85rem; font-weight: 600; outline: none; list-style: none; display: flex; align-items: center; gap: 5px;">
+                                <span>&#9662;</span> View Customer Details
+                            </summary>
+                            <div style="margin-top: 8px; padding: 12px; background: #f8f9fa; border-radius: 6px; border: 1px solid #e9ecef;">
+                                {% for d in loc.details %}
+                                <div style="margin-bottom: {% if loop.last %}0{% else %}10px{% endif %}; padding-bottom: {% if loop.last %}0{% else %}10px{% endif %}; border-bottom: {% if loop.last %}none{% else %}1px dashed #dee2e6{% endif %};">
+                                    <div style="font-size: 0.9rem; margin-bottom: 4px;"><strong>{{ d.customer_name }}</strong> <span style="color:var(--text-muted); font-size:0.8rem;">📱 {{ d.phone }}{% if d.email %} | ✉️ {{ d.email }}{% endif %}</span></div>
+                                    <span style="display:inline-block; padding: 3px 8px; background:var(--accent-light, #e2e8f0); color: var(--accent, #333); border-radius: 4px; font-size: 0.75rem; font-weight: 500;">
+                                     {% if d.service_type == 'building-cleaning' %}Building Cleaning
+                                     {% elif d.service_type == 'acid-wash' %}Acid Wash
+                                     {% elif d.service_type == 'tank-cleaning' %}Tank Cleaning
+                                     {% else %}{{ d.service_type|title }}{% endif %}
+                                    </span>
+                                    <span style="color:var(--text-muted); font-size:0.8rem; margin-left:10px;">📅 {{ d.preferred_date }}</span>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </details>
+                        {% endif %}
+                    </td>
+                    <td style="padding: 0.75rem 0.5rem; font-weight: bold; color: var(--accent); vertical-align: top;">{{ loc.count }}</td>
+                </tr>
+                {% else %}
+                <tr><td colspan="2" style="padding: 1.5rem 0.5rem; text-align: center; color: var(--text-muted);">No locations available yet.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </div>
+    </div>
+
+    <!-- NEW CUSTOMER HISTORY SECTION -->
+    <div class="card" style="grid-column: span 2; margin-top: var(--space-lg);">
+        <h3 style="margin-bottom: var(--space-sm);">Customer Service History</h3>
+        <div style="max-height: 250px; overflow-y: auto;">
+        <table class="data-table" style="width: 100%; border-collapse: collapse;">
+            <thead>
+                <tr style="border-bottom: 2px solid var(--border-color); text-align: left;">
+                    <th style="padding: 0.75rem 0.5rem; color: var(--text-muted); font-weight: 600; position: sticky; top: 0; background: white; z-index: 1;">Customer</th>
+                    <th style="padding: 0.75rem 0.5rem; color: var(--text-muted); font-weight: 600; position: sticky; top: 0; background: white; z-index: 1;">Total Bookings</th>
+                    <th style="padding: 0.75rem 0.5rem; color: var(--text-muted); font-weight: 600; position: sticky; top: 0; background: white; z-index: 1;">Services Taken</th>
+                    <th style="padding: 0.75rem 0.5rem; color: var(--text-muted); font-weight: 600; position: sticky; top: 0; background: white; z-index: 1;">Timeline</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cust in stats.frequent_customers %}
+                <tr style="border-bottom: 1px solid var(--border-color);">
+                    <td style="padding: 0.75rem 0.5rem;">
+                        <strong>{{ cust.customer_name }}</strong><br>
+                        <span style="font-size: 0.8rem; color: var(--text-muted);">{{ cust.phone }}</span>
+                    </td>
+                    <td style="padding: 0.75rem 0.5rem; font-weight: bold; color: var(--accent);">{{ cust.total_bookings }}</td>
+                    <td style="padding: 0.75rem 0.5rem; font-size: 0.9rem;">{{ cust.services | replace(',', ', ') }}</td>
+                    <td style="padding: 0.75rem 0.5rem; font-size: 0.85rem; color: var(--text-muted);">
+                        First: {{ cust.first_booking.strftime('%b %d, %Y') if cust.first_booking else 'N/A' }}<br>
+                        Latest: {{ cust.latest_booking.strftime('%b %d, %Y') if cust.latest_booking else 'N/A' }}
+                    </td>
+                </tr>
+                {% else %}
+                <tr><td colspan="4" style="padding: 1.5rem 0.5rem; text-align: center; color: var(--text-muted);">No customer history available yet.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

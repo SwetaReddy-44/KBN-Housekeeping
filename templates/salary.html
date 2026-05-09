@@ -1,0 +1,192 @@
+{% extends "admin_base.html" %}
+
+{% block content %}
+<div class="page-title">
+    <h2>Payroll & Salary</h2>
+    <div style="display: flex; gap: var(--space-sm);">
+        <button onclick="document.getElementById('addSalForm').style.display='block'" class="btn btn-primary" style="padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; border: none;">+ Log Salary</button>
+    </div>
+</div>
+
+<div id="addSalForm" style="display: none; background: #fff; padding: 20px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
+    <h3>Log Monthly Salary</h3>
+    <form action="/salary" method="POST" style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 10px;">
+        <div style="flex: 1; min-width: 200px;">
+            <label style="display: block; margin-bottom: 5px; color: #475569; font-size: 0.9rem;">Employee</label>
+            <select name="employee_id" required style="width: 100%; padding: 0.6rem; border: 1px solid #CBD5E1; border-radius: 4px;">
+                <option value="" disabled selected>Select Employee</option>
+                {% for emp in employees %}
+                <option value="{{ emp.id }}">{{ emp.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div style="flex: 1; min-width: 150px;">
+            <label style="display: block; margin-bottom: 5px; color: #475569; font-size: 0.9rem;">Month</label>
+            <input type="month" name="month" required style="width: 100%; padding: 0.6rem; border: 1px solid #CBD5E1; border-radius: 4px;">
+        </div>
+        <div style="flex: 1; min-width: 150px;">
+            <label style="display: block; margin-bottom: 5px; color: #475569; font-size: 0.9rem;">Base Pay</label>
+            <input type="number" step="0.01" name="base_pay" required style="width: 100%; padding: 0.6rem; border: 1px solid #CBD5E1; border-radius: 4px;">
+        </div>
+        <div style="flex: 1; min-width: 150px;">
+            <label style="display: block; margin-bottom: 5px; color: #475569; font-size: 0.9rem;">Overtime</label>
+            <input type="number" step="0.01" name="overtime" value="0" style="width: 100%; padding: 0.6rem; border: 1px solid #CBD5E1; border-radius: 4px;">
+        </div>
+        <div style="flex: 1; min-width: 150px;">
+            <label style="display: block; margin-bottom: 5px; color: #475569; font-size: 0.9rem;">Deductions</label>
+            <input type="number" step="0.01" name="deductions" value="0" style="width: 100%; padding: 0.6rem; border: 1px solid #CBD5E1; border-radius: 4px;">
+        </div>
+        <div style="flex: 1; min-width: 150px;">
+            <label style="display: block; margin-bottom: 5px; color: #475569; font-size: 0.9rem;">Status</label>
+            <select name="status" style="width: 100%; padding: 0.6rem; border: 1px solid #CBD5E1; border-radius: 4px;">
+                <option value="Pending">Pending</option>
+                <option value="Paid">Paid</option>
+            </select>
+        </div>
+        <div style="width: 100%; margin-top: 10px; display: flex; align-items: center; gap: 1rem;">
+            <button type="submit" style="padding: 0.6rem 1.2rem; border-radius: 4px; border: none; background: #3B82F6; color: white; cursor: pointer; font-weight: 500;">Save Record</button>
+            <button type="button" onclick="document.getElementById('addSalForm').style.display='none'" style="padding: 0.6rem 1.2rem; border-radius: 4px; border: 1px solid #CBD5E1; background: white; cursor: pointer; font-weight: 500;">Cancel</button>
+            <strong id="netSalaryPreview" style="color: var(--primary);">Net Salary: ₹ 0.00</strong>
+        </div>
+    </form>
+</div>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-icon" style="background: rgba(16, 185, 129, 0.1); color: #10B981;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+        </div>
+        <div class="stat-details">
+            <h4>Total Payout</h4>
+            <div class="value">₹ {{ "{:,.2f}".format(total_payout) }}</div>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon" style="background: rgba(245, 158, 11, 0.1); color: #F59E0B;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+        </div>
+        <div class="stat-details">
+            <h4>Cleared</h4>
+            <div class="value">{{ cleared_pct }}%</div>
+        </div>
+    </div>
+</div>
+
+<div class="admin-table-container">
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>Employee Name</th>
+                <th>Base Pay</th>
+                <th>Overtime</th>
+                <th>Deductions</th>
+                <th>Net Salary</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for s in salaries %}
+            <tr>
+                <td><span style="font-weight: 500;">{{ s.employee_name }}</span><br><small style="color: #64748B;">{{ s.month }}</small></td>
+                <td>₹ {{ "{:,.2f}".format(s.base_pay) }}</td>
+                <td>₹ {{ "{:,.2f}".format(s.overtime) }}</td>
+                <td>₹ {{ "{:,.2f}".format(s.deductions) }}</td>
+                <td><strong>₹ {{ "{:,.2f}".format(s.net_salary) }}</strong></td>
+                <td>
+                    {% if s.status == 'Paid' %}
+                        <span class="status-badge status-active">Paid</span>
+                    {% else %}
+                        <span class="status-badge" style="background:#FEF3C7; color:#B45309;">{{ s.status }}</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <button type="button" onclick="openEditSalModal('{{ s.id }}', '{{ s.base_pay }}', '{{ s.overtime }}', '{{ s.deductions }}', '{{ s.status }}')" style="color: var(--primary); background: none; border: none; cursor: pointer; text-decoration: underline; font-size: inherit; margin-right: 10px;">Edit</button>
+                    <form action="/salary/delete/{{ s.id }}" method="POST" style="display:inline;" onsubmit="return confirm('Delete this salary record?');">
+                        <button type="submit" style="color: #EF4444; background: none; border: none; cursor: pointer; text-decoration: underline; font-size: inherit;">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="7" style="text-align: center; color: #64748B; padding: 2rem;">No salary records found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Edit Modal -->
+<div id="editSalModal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+    <div style="background: white; padding: 20px; border-radius: 8px; width: 90%; max-width: 500px;">
+        <h3>Edit Salary Record</h3>
+        <form id="editSalForm" method="POST" style="display: flex; flex-direction: column; gap: 1rem; margin-top: 10px;">
+            <div>
+                <label style="display: block; margin-bottom: 5px; color: #475569; font-size: 0.9rem;">Base Pay</label>
+                <input type="number" step="0.01" name="base_pay" id="edit_base_pay" required style="width: 100%; padding: 0.6rem; border: 1px solid #CBD5E1; border-radius: 4px;" oninput="calcEditNet()">
+            </div>
+            <div>
+                <label style="display: block; margin-bottom: 5px; color: #475569; font-size: 0.9rem;">Overtime</label>
+                <input type="number" step="0.01" name="overtime" id="edit_overtime" style="width: 100%; padding: 0.6rem; border: 1px solid #CBD5E1; border-radius: 4px;" oninput="calcEditNet()">
+            </div>
+            <div>
+                <label style="display: block; margin-bottom: 5px; color: #475569; font-size: 0.9rem;">Deductions</label>
+                <input type="number" step="0.01" name="deductions" id="edit_deductions" style="width: 100%; padding: 0.6rem; border: 1px solid #CBD5E1; border-radius: 4px;" oninput="calcEditNet()">
+            </div>
+            <div>
+                <label style="display: block; margin-bottom: 5px; color: #475569; font-size: 0.9rem;">Status</label>
+                <select name="status" id="edit_status" style="width: 100%; padding: 0.6rem; border: 1px solid #CBD5E1; border-radius: 4px;">
+                    <option value="Pending">Pending</option>
+                    <option value="Paid">Paid</option>
+                </select>
+            </div>
+            <div style="margin-top: 10px; display: flex; justify-content: flex-end; align-items: center; gap: 10px;">
+                <strong id="editNetSalaryPreview" style="color: var(--primary); margin-right: auto;">Net Salary: ₹ 0.00</strong>
+                <button type="button" onclick="document.getElementById('editSalModal').style.display='none'" style="padding: 0.6rem 1.2rem; border-radius: 4px; border: 1px solid #CBD5E1; background: white; cursor: pointer; font-weight: 500;">Cancel</button>
+                <button type="submit" style="padding: 0.6rem 1.2rem; border-radius: 4px; border: none; background: #3B82F6; color: white; cursor: pointer; font-weight: 500;">Update</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const monthInput = document.querySelector('input[name="month"]');
+        if (monthInput) {
+            const today = new Date();
+            const yyyy = today.getFullYear();
+            let mm = today.getMonth() + 1; // Months start at 0
+            if (mm < 10) mm = '0' + mm;
+            monthInput.max = `${yyyy}-${mm}`;
+        }
+    });
+
+    const calcNet = () => {
+        const base = parseFloat(document.querySelector('input[name="base_pay"]').value) || 0;
+        const ot = parseFloat(document.querySelector('input[name="overtime"]').value) || 0;
+        const ded = parseFloat(document.querySelector('input[name="deductions"]').value) || 0;
+        const msg = document.getElementById('netSalaryPreview');
+        if(msg) {
+            msg.textContent = `Net Salary: ₹ ${(base + ot - ded).toFixed(2)}`;
+        }
+    };
+    document.querySelectorAll('#addSalForm input[type="number"]').forEach(el => el.addEventListener('input', calcNet));
+
+    window.openEditSalModal = function(id, base, ot, ded, stat) {
+        document.getElementById('editSalForm').action = '/salary/edit/' + id;
+        document.getElementById('edit_base_pay').value = base;
+        document.getElementById('edit_overtime').value = ot;
+        document.getElementById('edit_deductions').value = ded;
+        document.getElementById('edit_status').value = stat;
+        calcEditNet();
+        document.getElementById('editSalModal').style.display = 'flex';
+    };
+
+    window.calcEditNet = function() {
+        const base = parseFloat(document.getElementById('edit_base_pay').value) || 0;
+        const ot = parseFloat(document.getElementById('edit_overtime').value) || 0;
+        const ded = parseFloat(document.getElementById('edit_deductions').value) || 0;
+        document.getElementById('editNetSalaryPreview').textContent = `Net Salary: ₹ ${(base + ot - ded).toFixed(2)}`;
+    };
+</script>
+{% endblock %}

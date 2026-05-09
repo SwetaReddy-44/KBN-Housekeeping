@@ -1,0 +1,54 @@
+{% extends "customer_base.html" %}
+
+{% block title %}KBN Housekeeping | Feedback{% endblock %}
+
+{% block extra_css %}
+<style>
+.rating-input { display: none; }
+.emoji { font-size: 2.5rem; cursor: pointer; opacity: 0.4; transition: transform 0.2s, opacity 0.2s; }
+.rating-input:checked + .emoji { opacity: 1; transform: scale(1.2); }
+.emoji:hover { opacity: 0.8; transform: scale(1.1); }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="container" style="max-width: 600px; margin: var(--space-xl) auto;">
+    <div class="card">
+        <div style="text-align: center; margin-bottom: var(--space-lg);">
+            <span class="badge">We Value Your Opinion</span>
+            <h1 style="margin-bottom: var(--space-xs);">Leave Feedback</h1>
+            <p class="muted-text">Tell us how we did so we can continue to improve our services.</p>
+        </div>
+
+        <form action="/feedback" method="POST">
+            <div class="form-group" style="margin-bottom: var(--space-md); text-align: center;">
+                <label style="display: block; margin-bottom: var(--space-xs); font-weight: 600; color: var(--primary);">Rate your experience *</label>
+                <div class="rating-group" style="display: flex; gap: var(--space-sm); justify-content: center; margin: var(--space-sm) 0;">
+                    <label class="rating-label"><input type="radio" name="rating" value="1" required class="rating-input"><span class="emoji" title="Terrible">😠</span></label>
+                    <label class="rating-label"><input type="radio" name="rating" value="2" class="rating-input"><span class="emoji" title="Bad">🙁</span></label>
+                    <label class="rating-label"><input type="radio" name="rating" value="3" class="rating-input"><span class="emoji" title="Okay">😐</span></label>
+                    <label class="rating-label"><input type="radio" name="rating" value="4" class="rating-input"><span class="emoji" title="Good">🙂</span></label>
+                    <label class="rating-label"><input type="radio" name="rating" value="5" class="rating-input" checked><span class="emoji" title="Excellent">😍</span></label>
+                </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom: var(--space-md);">
+                <label for="name" style="display: block; margin-bottom: var(--space-xs); font-weight: 500;">Your Name *</label>
+                <input type="text" id="name" name="name" class="form-control" placeholder="John Doe" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: var(--radius-md);">
+            </div>
+            
+            <div class="form-group" style="margin-bottom: var(--space-md);">
+                <label for="email" style="display: block; margin-bottom: var(--space-xs); font-weight: 500;">Your Email (Optional)</label>
+                <input type="email" id="email" name="email" class="form-control" placeholder="john@example.com" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: var(--radius-md);">
+            </div>
+
+            <div class="form-group" style="margin-bottom: var(--space-md);">
+                <label for="message" style="display: block; margin-bottom: var(--space-xs); font-weight: 500;">Feedback Message *</label>
+                <textarea id="message" name="message" class="form-control" rows="5" placeholder="Share your experience..." required style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: var(--radius-md);"></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Submit Feedback</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

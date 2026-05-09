@@ -1,0 +1,143 @@
+{% extends "customer_base.html" %}
+
+{% block title %}KBN Housekeeping | Our Services{% endblock %}
+
+{% block extra_css %}
+<style>
+.services-header {
+    text-align: center;
+    padding: var(--space-xl) 0 var(--space-md);
+}
+
+.services-header h1 {
+    font-size: 3rem;
+    margin-bottom: var(--space-sm);
+}
+
+.service-grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-lg);
+    margin-bottom: var(--space-xl);
+    justify-content: center;
+}
+
+.service-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.service-img-placeholder {
+    height: 200px;
+    background: var(--primary-light);
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 3rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.service-img-placeholder::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.5));
+}
+
+.service-icon-overlay {
+    position: absolute;
+    bottom: var(--space-sm);
+    right: var(--space-sm);
+    z-index: 10;
+    background: var(--accent);
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-pill);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-md);
+}
+
+.service-content {
+    padding: var(--space-md);
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.service-content h3 {
+    margin-bottom: var(--space-sm);
+    font-size: 1.5rem;
+}
+
+.service-content p {
+    color: var(--text-muted);
+    margin-bottom: var(--space-md);
+    flex-grow: 1;
+}
+
+.service-price {
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 1.25rem;
+    margin-bottom: var(--space-sm);
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="container">
+    <div class="services-header">
+        <span class="badge">Our Expertise</span>
+        <h1>Premium Facility Services</h1>
+        <p class="muted-text" style="max-width: 600px; margin: 0 auto;">Discover our thoroughly professional cleaning services designed to keep your spaces pristine.</p>
+    </div>
+
+    <div class="grid service-grid">
+        <!-- Service 1 -->
+        <div class="card service-card">
+            <div class="service-img-placeholder" style="background: url('{{ url_for('static', filename='images/acid_wash.png') }}') center/cover;">
+            </div>
+            <div class="service-content">
+                <h3 style="text-align: left;">Acid Wash</h3>
+                <p style="text-align: justify; line-height: 1.6;">A rigorous deep cleaning treatment for tiles and surfaces that elegantly removes tough stains and mineral deposits. Perfect for refreshing the appearance of commercial properties and restoring their original shine.</p>
+                <div class="flex justify-end items-center mt-auto">
+                    <a href="/booking?service=acid-wash" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.875rem;">Book</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Service 2 -->
+        <div class="card service-card">
+            <div class="service-img-placeholder" style="background: url('{{ url_for('static', filename='images/tank_cleaning.png') }}') center/cover;">
+            </div>
+            <div class="service-content">
+                <h3 style="text-align: left;">Tank Cleaning</h3>
+                <p style="text-align: justify; line-height: 1.6;">Thorough professional sanitization of water storage systems for corporate complexes and buildings. We strictly maintain high hygiene standards to ensure safe water circulation everywhere.</p>
+                <div class="flex justify-end items-center mt-auto">
+                    <a href="/booking?service=tank-cleaning" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.875rem;">Book</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Service 3 -->
+        <div class="card service-card">
+            <div class="service-img-placeholder" style="background: url('{{ url_for('static', filename='images/building_cleaning.png') }}') center/cover;">
+            </div>
+            <div class="service-content">
+                <h3 style="text-align: left;">Commercial Building Cleaning</h3>
+                <p style="text-align: justify; line-height: 1.6;">Comprehensive environmental maintenance for offices, healthcare centers, and large corporate properties. Our team adeptly handles ground floors, main lobbies, and all integrated common areas.</p>
+                <div class="flex justify-end items-center mt-auto">
+                    <a href="/booking?service=building-cleaning" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.875rem;">Book</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

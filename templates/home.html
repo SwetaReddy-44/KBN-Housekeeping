@@ -1,0 +1,182 @@
+{% extends "customer_base.html" %}
+
+{% block title %}KBN Housekeeping | Home{% endblock %}
+
+{% block extra_css %}
+<style>
+/* Hero Section */
+.hero {
+    position: relative;
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(135deg, #F8FAFC 0%, #E2E8F0 100%);
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image: radial-gradient(var(--accent) 1px, transparent 1px);
+    background-size: 40px 40px;
+    opacity: 0.1;
+}
+
+.hero-content {
+    max-width: 600px;
+    position: relative;
+    z-index: 10;
+}
+
+.badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    background: rgba(245, 158, 11, 0.1);
+    color: var(--accent-hover);
+    border-radius: var(--radius-pill);
+    font-weight: 600;
+    font-size: 0.875rem;
+    margin-bottom: var(--space-md);
+    border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.hero h1 {
+    font-size: 3.5rem;
+    line-height: 1.1;
+    margin-bottom: var(--space-md);
+    letter-spacing: -0.02em;
+}
+
+.hero p {
+    font-size: 1.25rem;
+    color: var(--text-muted);
+    margin-bottom: var(--space-lg);
+}
+
+.hero-buttons .btn {
+    margin-right: var(--space-sm);
+}
+
+/* Feature Grid */
+.features-section {
+    background: var(--surface);
+    margin-top: -60px; /* Pull up to overlap hero slightly */
+    position: relative;
+    z-index: 20;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    padding: var(--space-lg);
+}
+
+.feature-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-lg);
+}
+
+.feature-item {
+    text-align: center;
+}
+
+.feature-icon {
+    width: 64px;
+    height: 64px;
+    background: rgba(245, 158, 11, 0.1);
+    color: var(--accent);
+    border-radius: var(--radius-pill);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto var(--space-md);
+    font-size: 1.5rem;
+}
+
+.feature-item h3 {
+    margin-bottom: var(--space-xs);
+}
+
+@media (max-width: 768px) {
+    .hero h1 { font-size: 2.5rem; }
+    .feature-grid { grid-template-columns: 1fr; }
+    .features-section { margin-top: 0; border-radius: 0; box-shadow: none; padding-top: var(--space-xl); }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero">
+    <div class="container hero-inner">
+        <div class="hero-content">
+            <span class="badge">#1 Facility Services Provider</span>
+            <h1>Specialized Commercial & Building Services.</h1>
+            <p style="text-align: justify; line-height: 1.6;">From acid washing to deep tank sanitization and comprehensive building cleaning, we provide premium, scalable solutions for offices, hospitals, and residential complexes.</p>
+            <div class="hero-buttons flex">
+                <a href="/booking" class="btn btn-primary">Book Now</a>
+                <a href="/services" class="btn btn-outline">Explore Services</a>
+            </div>
+        </div>
+        <!-- Note: We could add a beautiful floating hero image here to the right of the content -->
+    </div>
+</section>
+
+<!-- Features Overlay Segment -->
+<section class="container">
+    <div class="features-section">
+        <div class="grid feature-grid">
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                </div>
+                <h3>Trusted Professionals</h3>
+                <p class="muted-text">All our staff are verified, highly trained, and fully insured.</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                </div>
+                <h3>Advanced Techniques</h3>
+                <p class="muted-text">Using vacuum cleaners, pressure machines & chemicals.</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                </div>
+                <h3>Premium Products</h3>
+                <p class="muted-text">Top-tier solutions for acid washing and spotless glass cleaning.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Additional Quick Intro Section -->
+<section class="section container">
+    <div class="grid" style="grid-template-columns: 1fr 1fr; align-items: center; gap: var(--space-xl);">
+        <div>
+            <h2>Why Choose KBN Facility Services?</h2>
+            <br>
+            <p style="text-align: justify; line-height: 1.6;">We don't just clear the dirt; we refine your environment. With over a decade of combined experience in the hospitality and housekeeping sectors, KBN creates a spotless, hygienic, and welcoming atmosphere.</p>
+            <br>
+            <ul style="list-style: none; padding: 0;">
+                <li style="margin-bottom: 10px; display: flex; align-items: center;">
+                    <svg style="color: var(--accent); margin-right: 10px;" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    State-of-the-Art Cleaning Technology
+                </li>
+                <li style="margin-bottom: 10px; display: flex; align-items: center;">
+                    <svg style="color: var(--accent); margin-right: 10px;" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    Customizable Service Plans
+                </li>
+                <li style="margin-bottom: 10px; display: flex; align-items: center;">
+                    <svg style="color: var(--accent); margin-right: 10px;" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    100% Satisfaction Guarantee
+                </li>
+            </ul>
+        </div>
+        <div class="card" style="background: var(--primary); color: white;">
+            <h3 style="color: white;">Need immediate assistance?</h3>
+            <p style="color: #CBD5E1; margin: var(--space-sm) 0;">Our rapid response team is ready to tackle any cleaning emergency.</p>
+            <a href="tel:+917021249438" class="btn btn-primary" style="width: 100%; border-radius: var(--radius-md);">Call Us Now</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,99 @@
+{% extends "admin_base.html" %}
+
+{% block content %}
+<div class="page-title">
+    <h2>Employee Management</h2>
+    <button onclick="document.getElementById('addEmployeeForm').style.display='block'" class="btn btn-primary" style="padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; border: none;">+ Add Employee</button>
+</div>
+
+<div id="addEmployeeForm" style="display: none; background: #fff; padding: 20px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
+    <h3>Add New Employee</h3>
+    <form action="/employees" method="POST" style="display: flex; gap: 1rem; align-items: flex-end; margin-top: 10px;">
+        <div style="flex: 1;">
+            <label style="display: block; margin-bottom: 5px; color: #475569; font-size: 0.9rem;">Join Date</label>
+            <input type="date" name="join_date" required style="width: 100%; padding: 0.6rem; border: 1px solid #CBD5E1; border-radius: 4px;">
+        </div>
+        <div style="flex: 1;">
+            <label style="display: block; margin-bottom: 5px; color: #475569; font-size: 0.9rem;">Employee Name</label>
+            <input type="text" name="name" required style="width: 100%; padding: 0.6rem; border: 1px solid #CBD5E1; border-radius: 4px;">
+        </div>
+        <div style="flex: 1;">
+            <label style="display: block; margin-bottom: 5px; color: #475569; font-size: 0.9rem;">Status</label>
+            <select name="status" style="width: 100%; padding: 0.6rem; border: 1px solid #CBD5E1; border-radius: 4px;">
+                <option value="Active">Active</option>
+                <option value="On Leave">On Leave</option>
+                <option value="Inactive">Inactive</option>
+            </select>
+        </div>
+        <div>
+            <button type="submit" style="padding: 0.6rem 1.2rem; border-radius: 4px; border: none; background: #3B82F6; color: white; cursor: pointer; font-weight: 500;">Save</button>
+            <button type="button" onclick="document.getElementById('addEmployeeForm').style.display='none'" style="padding: 0.6rem 1.2rem; border-radius: 4px; border: 1px solid #CBD5E1; background: white; cursor: pointer; margin-left: 10px; font-weight: 500;">Cancel</button>
+        </div>
+    </form>
+</div>
+
+<!-- Quick Stats -->
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-icon" style="background: rgba(59, 130, 246, 0.1); color: #3B82F6;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+        </div>
+        <div class="stat-details">
+            <h4>Total Staff</h4>
+            <div class="value">{{ total_staff }}</div>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon" style="background: rgba(16, 185, 129, 0.1); color: #10B981;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+        </div>
+        <div class="stat-details">
+            <h4>Active Now</h4>
+            <div class="value">{{ active_now }}</div>
+        </div>
+    </div>
+</div>
+
+<!-- Employee List -->
+<div class="admin-table-container">
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Join Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for emp in employees %}
+            <tr>
+                <td>
+                    <div style="display: flex; align-items: center;">
+                        <div class="avatar" style="width: 32px; height: 32px; background: #E2E8F0; color: #475569; margin-right: 10px; font-size: 0.8rem; border-radius: 50%; display: flex; align-items: center; justify-content: center;">{{ emp.name[:2].upper() }}</div>
+                        <span style="font-weight: 500; color: var(--text-main);">{{ emp.name }}</span>
+                    </div>
+                </td>
+                <td>{{ emp.join_date.strftime('%b %d, %Y') if emp.join_date else 'N/A' }}</td>
+                <td>
+                    {% if emp.status == 'Active' %}
+                        <span class="status-badge status-active">Active</span>
+                    {% else %}
+                        <span class="status-badge status-inactive">{{ emp.status }}</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <form action="/employee/delete/{{ emp.id }}" method="POST" style="display:inline;" onsubmit="return confirm('Delete this employee and all their records?');">
+                        <button type="submit" style="color: #EF4444; background: none; border: none; cursor: pointer; text-decoration: underline; font-size: inherit; margin-right: 10px;">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="4" style="text-align: center; color: #64748B; padding: 2rem;">No employees added yet.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

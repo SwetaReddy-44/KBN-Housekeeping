@@ -1,0 +1,164 @@
+/* Customer Portal Layout Styles */
+
+/* Header */
+.main-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    transition: all var(--transition-normal);
+    padding: var(--space-sm) 0;
+    border-bottom: 1px solid transparent;
+}
+
+.main-header.scrolled {
+    padding: var(--space-xs) 0;
+    background: rgba(255, 255, 255, 0.95);
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+}
+
+.brand-text {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--primary);
+}
+
+.brand-text .highlight {
+    color: var(--accent);
+}
+
+/* Nav Links */
+.nav-link {
+    font-weight: 500;
+    margin: 0 var(--space-md);
+    position: relative;
+    padding-bottom: 4px;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: var(--accent);
+    transition: width var(--transition-normal);
+}
+
+.nav-link:hover::after, .nav-link.active::after {
+    width: 100%;
+}
+
+.nav-link.active {
+    color: var(--accent);
+}
+
+/* Utilities */
+.ml-4 { margin-left: var(--space-lg); }
+
+/* Main Content Padding to account for fixed header */
+.content-wrapper {
+    padding-top: 60px; /* Adjust based on header height */
+    min-height: calc(100vh - 60px - 200px); /* rough calc for footer */
+}
+
+/* Footer Section */
+.main-footer {
+    background-color: var(--primary);
+    color: white;
+    padding-top: var(--space-lg);
+    margin-top: var(--space-lg);
+}
+
+.footer-grid {
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: var(--space-lg);
+    padding-bottom: var(--space-md);
+}
+
+.footer-brand h3 {
+    color: white;
+    margin-bottom: var(--space-sm);
+}
+
+.footer-brand .highlight {
+    color: var(--accent);
+}
+
+.muted-text {
+    color: #94A3B8;
+}
+
+.footer-links, .footer-contact {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.footer-links h4, .footer-contact h4 {
+    color: white;
+    margin-bottom: var(--space-sm);
+    font-size: 1.1rem;
+}
+
+.footer-links a {
+    color: #CBD5E1;
+    margin-bottom: var(--space-xs);
+}
+
+.footer-links a:hover {
+    color: var(--accent);
+    transform: translateX(5px);
+}
+
+.footer-contact p {
+    color: #CBD5E1;
+    margin-bottom: var(--space-xs);
+}
+
+.admin-link {
+    margin-top: var(--space-md);
+    padding-top: var(--space-sm);
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.subtle-link {
+    color: #64748B;
+    font-size: 0.875rem;
+}
+
+.subtle-link:hover {
+    color: white;
+}
+
+.footer-bottom {
+    background-color: var(--primary-light);
+    padding: var(--space-sm) 0;
+    text-align: center;
+    color: #64748B;
+    font-size: 0.875rem;
+}
+
+/* Responsive Hide/Show */
+.mobile-only { display: none; }
+.desktop-only { display: flex; align-items: center; }
+
+@media (max-width: 768px) {
+    .desktop-only { display: none; }
+    .mobile-only { 
+        display: block; 
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: var(--primary);
+    }
+    
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-md);
+    }
+}

@@ -1,0 +1,120 @@
+{% extends "customer_base.html" %}
+{% block title %}KBN Housekeeping | Gallery{% endblock %}
+
+
+{% block extra_css %}
+<style>
+.gallery-header {
+    text-align: center;
+    padding: var(--space-xl) 0 var(--space-md);
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-auto-rows: 250px;
+    gap: var(--space-md);
+    margin-bottom: var(--space-xl);
+}
+
+.gallery-item {
+    position: relative;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+    transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+    
+    /* Simulate image backgrounds with gradient placeholders for now */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.gallery-item:hover {
+    transform: scale(1.02);
+    box-shadow: var(--shadow-lg);
+    z-index: 10;
+}
+
+.gallery-overlay {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    background: linear-gradient(transparent, rgba(15, 23, 42, 0.8));
+    padding: var(--space-sm);
+    transform: translateY(100%);
+    transition: transform var(--transition-normal);
+}
+
+.gallery-item:hover .gallery-overlay {
+    transform: translateY(0);
+}
+
+.gallery-overlay h4 {
+    color: white;
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+/* Specific heights to create a masonry feel */
+.tall {
+    grid-row: span 2;
+}
+.wide {
+    grid-column: span 2;
+}
+
+@media (max-width: 768px) {
+    .wide { grid-column: span 1; }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="container">
+    <div class="gallery-header">
+        <span class="badge">Our Work</span>
+        <h1>See the Difference</h1>
+        <p class="muted-text" style="max-width: 600px; margin: 0 auto; text-align: justify;">A visual representation of the comprehensive cleaning and facility management services we provide.</p>
+    </div>
+
+    <!-- Note for User: These are styled placeholders. You can replace the background gradients with actual CSS multiple backgrounds or <img> tags later -->
+    <div class="gallery-grid">
+        <div class="gallery-item wide" style="background: url('{{ url_for('static', filename='images/building_cleaning.png') }}') center/cover;">
+            <div class="gallery-overlay"><h4>Corporate Building Exterior</h4></div>
+        </div>
+        
+        <div class="gallery-item tall" style="background: url('{{ url_for('static', filename='images/acid_wash.png') }}') center/cover;">
+            <div class="gallery-overlay"><h4>Acid Wash Treatment</h4></div>
+        </div>
+        
+        <div class="gallery-item" style="background: url('{{ url_for('static', filename='images/tank_cleaning.png') }}') center/cover;">
+            <div class="gallery-overlay"><h4>Commercial Tank Sanitization</h4></div>
+        </div>
+        
+        <div class="gallery-item" style="background: url('{{ url_for('static', filename='images/sweeping.png') }}') center/cover;">
+            <div class="gallery-overlay"><h4>Facilities Sweeping</h4></div>
+        </div>
+        
+        <div class="gallery-item wide" style="background: url('{{ url_for('static', filename='images/mopping.png') }}') center/cover;">
+            <div class="gallery-overlay"><h4>Floor Mopping & Maintenance</h4></div>
+        </div>
+        
+        <div class="gallery-item" style="background: url('{{ url_for('static', filename='images/office_cleaning.png') }}') center/cover;">
+            <div class="gallery-overlay"><h4>Modern Office Cleaning</h4></div>
+        </div>
+        
+        <div class="gallery-item tall" style="background: url('{{ url_for('static', filename='images/window_cleaning.png') }}') center/cover;">
+            <div class="gallery-overlay"><h4>High-Rise Window Cleaning</h4></div>
+        </div>
+        
+        <div class="gallery-item" style="background: url('{{ url_for('static', filename='images/carpet_cleaning.png') }}') center/cover;">
+            <div class="gallery-overlay"><h4>Deep Carpet Cleaning</h4></div>
+        </div>
+    </div>
+</section>
+{% endblock %}
