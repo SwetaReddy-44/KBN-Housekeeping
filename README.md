@@ -30,7 +30,7 @@ A comprehensive web-based management system designed to streamline daily operati
 ## 📸 Screenshot
 
 <img width="1907" height="889" alt="Screenshot 2026-05-09 162459" src="https://github.com/user-attachments/assets/5d1f5c16-def8-41f1-bfd9-e38cfda1ccab" />
-<img width="1907" height="889" alt="Screenshot 2026-05-09 162459" src="https://github.com/user-attachments/assets/31289dce-deaa-4646-9672-6337a98cfa08" />
+<img width="1879" height="814" alt="Screenshot 2026-05-09 164638" src="https://github.com/user-attachments/assets/656e1256-846d-4c43-96de-29dd7551c737" />
 <img width="1890" height="897" alt="Screenshot 2026-05-09 164142" src="https://github.com/user-attachments/assets/ec6f972a-0b32-4159-9eb5-308d79ce1041" />
 <img width="1905" height="896" alt="Screenshot 2026-05-09 164323" src="https://github.com/user-attachments/assets/85728f44-5e2b-45e1-8f8c-24fcd4fb3852" />
 <img width="1899" height="420" alt="Screenshot 2026-05-09 164419" src="https://github.com/user-attachments/assets/8891ac30-aa44-4fad-a40f-d7087b1f6d63" />
